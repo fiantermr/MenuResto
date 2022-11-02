@@ -20,11 +20,11 @@ body {
 
 @media only screen and (max-height: 1000px) {
   .hasil {
-    height: 650px;
+    height: 620px;
   }
   
   .menu {
-    height: 800px;
+    height: 780px;
   }
 }
 

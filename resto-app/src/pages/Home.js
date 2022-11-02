@@ -29,30 +29,34 @@ export default class Home extends Component {
         console.log(error);
       });
 
-    axios
-      .get(API_URL + "keranjangs")
-      .then(res => {
-        const keranjangs = res.data;
-        this.setState({ keranjangs });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.getListKeranjang()
 
   }
 
-  componentDidUpdate(prevState) {
-    if (this.state.keranjangs !== prevState.keranjangs) {
-      axios
-        .get(API_URL + "keranjangs")
-        .then(res => {
-          const keranjangs = res.data;
-          this.setState({ keranjangs });
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
+  // componentDidUpdate(prevState) {
+  //   if (this.state.keranjangs !== prevState.keranjangs) {
+  //     axios
+  //       .get(API_URL + "keranjangs")
+  //       .then(res => {
+  //         const keranjangs = res.data;
+  //         this.setState({ keranjangs });
+  //       })
+  //       .catch(error => {
+  //         console.log(error);
+  //       });
+  //   }
+  // }
+
+  getListKeranjang = () => {
+    axios
+    .get(API_URL + "keranjangs")
+    .then(res => {
+      const keranjangs = res.data;
+      this.setState({ keranjangs });
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
   changeCategory = (value) => {
@@ -88,6 +92,7 @@ export default class Home extends Component {
           axios
             .post(API_URL + "keranjangs", cart)
             .then(res => {
+              this.getListKeranjang();
               swal({
                 title: "Success, add to cart",
                 text: cart.product.nama + ", success add to cart",
@@ -134,9 +139,10 @@ export default class Home extends Component {
     return (
         <div className="mt-3">
           <Container fluid>
-            <Row>
-              <Listcat changeCategory={this.changeCategory} categoridipilih={categoridipilih} />
-              <Col className="mt-3">
+            <Row className="overflow-auto menu">
+              <Listcat changeCategory={this.changeCategory} 
+              categoridipilih={categoridipilih} />
+              <Col className="">
                 <h4>
                   <strong>Daftar Produk</strong>
                 </h4>
@@ -151,7 +157,7 @@ export default class Home extends Component {
                   ))}
                 </Row>
               </Col>
-              <Hasil keranjangs={keranjangs} {...this.props} />
+              <Hasil keranjangs={keranjangs} {...this.props} getListKeranjang={this.getListKeranjang}/>
             </Row>
           </Container>
         </div>

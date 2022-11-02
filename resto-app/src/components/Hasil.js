@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Badge, Col, ListGroup, Row } from 'react-bootstrap'
+import { Badge, Card, Col, ListGroup, Row } from 'react-bootstrap'
 import { numberWithCommas } from '../utils/utils'
 import Modalcart from './Modalcart'
 import TotalBayar from './TotalBayar'
@@ -70,11 +70,12 @@ export default class extends Component {
     }
 
     axios
-      .put(API_URL + "keranjangs/"+this.state.keranjangDetail.id, data)
+      .put(API_URL + "keranjangs/" + this.state.keranjangDetail.id, data)
       .then(res => {
+        this.props.getListKeranjang();
         swal({
           title: "Update Pesanan",
-          text: "Suksess Update Pesanan " + data.product.nama ,
+          text: "Suksess Update Pesanan " + data.product.nama,
           icon: "success",
           button: false,
           timer: 1500,
@@ -97,8 +98,9 @@ export default class extends Component {
     }
 
     axios
-      .delete(API_URL + "keranjangs/"+id)
+      .delete(API_URL + "keranjangs/" + id)
       .then(res => {
+        this.props.getListKeranjang();
         swal({
           title: "Hapus Pesanan",
           text: "Suksess Hapus Pesanan " + this.state.keranjangDetail.product.nama,
@@ -119,28 +121,31 @@ export default class extends Component {
         <h4><strong>Hasil</strong></h4>
         <hr />
         {keranjangs.length !== 0 && (
+          <Card className='overflow-auto hasil'>
           <ListGroup variant="flush">
             {keranjangs.map((menuKeranjang) => (
-              <ListGroup.Item key={menuKeranjang.id} onClick={() => this.handleShow(menuKeranjang)}>
-                <Row>
-                  <Col xs={2}>
-                    <h4>
-                      <Badge pill variant="success">
-                        {menuKeranjang.jumlah}
-                      </Badge>
-                    </h4>
-                  </Col>
-                  <Col>
-                    <h5>
-                      {menuKeranjang.product.nama}
-                      <p>Rp. {numberWithCommas(menuKeranjang.product.harga)}</p>
-                    </h5>
-                  </Col>
-                  <Col>
-                    <strong className='float-right'>Rp. {numberWithCommas(menuKeranjang.total_harga)}</strong>
-                  </Col>
-                </Row>
-              </ListGroup.Item>
+              
+                <ListGroup.Item key={menuKeranjang.id} onClick={() => this.handleShow(menuKeranjang)}>
+                  <Row>
+                    <Col xs={2}>
+                      <h4>
+                        <Badge pill variant="success">
+                          {menuKeranjang.jumlah}
+                        </Badge>
+                      </h4>
+                    </Col>
+                    <Col>
+                      <h5>
+                        {menuKeranjang.product.nama}
+                        <p>Rp. {numberWithCommas(menuKeranjang.product.harga)}</p>
+                      </h5>
+                    </Col>
+                    <Col>
+                      <strong className='float-right'>Rp. {numberWithCommas(menuKeranjang.total_harga)}</strong>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              
             ))}
 
             <Modalcart handleClose={this.handleClose}
@@ -151,6 +156,7 @@ export default class extends Component {
               handleSubmit={this.handleSubmit}
               hapusPesanan={this.hapusPesanan} />
           </ListGroup>
+          </Card>
         )}
 
         <TotalBayar keranjangs={keranjangs} {...this.props} />

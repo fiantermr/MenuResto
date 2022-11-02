@@ -31,14 +31,13 @@ export default class TotalBayar extends Component {
           <Col md={{ span: 3, offset: 9 }} className="px-4">
             <h4>
               Total Harga :{" "}
-              <strong className="float-right mr-2">
+              <strong style={{ float:"right", marginRight: 2 }}>
                 Rp. {numberWithCommas(totalBayar)}
               </strong>
             </h4>
             <Button
               variant="primary"
-              block
-              className="mb-2 mt-4 mr-2"
+              style={{ marginBottom: 2, marginTop: 4, marginRight: 2, paddingLeft: 141, paddingRight: 141 }}
               size="lg"
               onClick={() => this.submitTotalBayar(totalBayar)}
             >
