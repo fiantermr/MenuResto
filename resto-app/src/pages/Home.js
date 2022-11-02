@@ -4,7 +4,7 @@ import { Hasil, Listcat, Menus } from "../components/";
 import { API_URL } from '../utils/constant';
 import axios from 'axios';
 import swal from 'sweetalert';
-import { Link } from "react-router-dom";
+
 
 
 export default class Home extends Component {

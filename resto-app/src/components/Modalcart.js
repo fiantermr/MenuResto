@@ -5,7 +5,17 @@ import { numberWithCommas } from '../utils/utils'
 import { faPlus, faMinus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const Modalcart = ({ showModal, handleClose, keranjangDetail, jumlah, keterangan, tambah, kurang, changeHandler, handleSubmit }) => {
+const Modalcart = ({ showModal, 
+    handleClose, 
+    keranjangDetail, 
+    jumlah, 
+    keterangan, 
+    tambah, 
+    kurang, 
+    changeHandler, 
+    handleSubmit, 
+    totalHarga,
+    hapusPesanan }) => {
     if (keranjangDetail) {
         return (
             <Modal show={showModal} onHide={handleClose}>
@@ -23,7 +33,7 @@ const Modalcart = ({ showModal, handleClose, keranjangDetail, jumlah, keterangan
                             <Form.Label>Total Harga :</Form.Label>
                             <p>
                                 <strong>
-                                    Rp. {numberWithCommas(keranjangDetail.total_harga)}
+                                    Rp. {numberWithCommas(totalHarga)}
                                 </strong>
                             </p>
                         </Form.Group>
@@ -31,12 +41,12 @@ const Modalcart = ({ showModal, handleClose, keranjangDetail, jumlah, keterangan
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Jumlah :</Form.Label>
                             <br></br>
-                            <Button variant="primary" size="sm" style={{ marginRight: 2 }} onClick={ () => tambah()}>
-                                <FontAwesomeIcon icon={faPlus} />
-                            </Button>
-                            <strong>{jumlah}</strong>
-                            <Button variant="primary" size="sm" style={{ marginLeft: 2 }} onClick={ () => kurang()}>
+                            <Button variant="primary" size="sm" style={{ marginRight: 2 }} onClick={ () => kurang()}>
                                 <FontAwesomeIcon icon={faMinus} />
+                            </Button>
+                            <strong>{jumlah}</strong>  
+                            <Button variant="primary" size="sm" style={{ marginLeft: 2 }} onClick={ () => tambah()}>
+                                <FontAwesomeIcon icon={faPlus} />
                             </Button>
                         </Form.Group>
 
@@ -55,7 +65,7 @@ const Modalcart = ({ showModal, handleClose, keranjangDetail, jumlah, keterangan
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="danger">
+                    <Button variant="danger" onClick={() => hapusPesanan(keranjangDetail.id)}>
                         <FontAwesomeIcon icon={faTrash} /> Hapus Pesanan
                     </Button>
                 </Modal.Footer>
